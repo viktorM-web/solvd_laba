@@ -6,21 +6,27 @@ import java.util.Scanner;
 
 public class TestPostSystem {
 
+    static {
+        System.err.println("Program started");
+    }
+
     public static void main(String[] args) {
 
         PostalChain postalChain = Creator.createPostSystem();
         try (Scanner scanner = new Scanner(System.in)) {
 
-            Department department = postalChain.contactWithDepartment(scanner);
+            while (true) {
+                Department department = postalChain.contactWithDepartment(scanner);
 
-            if (department == null) {
+                if (department == null) {
 
-                System.out.println("not correct index");
+                    System.out.println("not correct index");
 
-            } else {
+                } else {
 
-                department.useService(scanner);
+                    department.useService(scanner);
 
+                }
             }
         }
     }

@@ -1,7 +1,10 @@
 package com.solvd.post.entity;
 
+import lombok.Getter;
+
 import java.util.Scanner;
 
+@Getter
 public class Consumer extends PersonalData {
 
     private Address address;
@@ -17,11 +20,11 @@ public class Consumer extends PersonalData {
     }
 
     public static Consumer build(Scanner scanner, Department department) {
-        System.out.println("Enter name for sender");
+        System.out.println("Enter name");
         String name = scanner.nextLine();
-        System.out.println("Enter surname for sender");
+        System.out.println("Enter surname");
         String surname = scanner.nextLine();
-        System.out.println("Enter passport for sender");
+        System.out.println("Enter passport");
         String passport = scanner.nextLine();
         return new Consumer(name, surname, passport, department.getAddress());
     }

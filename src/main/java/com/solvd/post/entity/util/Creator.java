@@ -1,6 +1,9 @@
 package com.solvd.post.entity.util;
 
-import com.solvd.post.entity.*;
+import com.solvd.post.entity.Address;
+import com.solvd.post.entity.Department;
+import com.solvd.post.entity.Employee;
+import com.solvd.post.entity.PostalChain;
 import com.solvd.post.entity.enam.Post;
 import lombok.experimental.UtilityClass;
 
@@ -11,7 +14,7 @@ public class Creator {
 
     public static PostalChain createPostSystem() {
 
-        PostalChain postalChain = new PostalChain();
+        PostalChain postalChain = PostalChain.getINSTANCE();
 
         Employee ivan = new Employee("Ivan", "Ivanov", "MP1112233", Post.OFFICE_WORKER);
         Employee mikhail = new Employee("Mikhail", "Mikhailov", "MP1112234", Post.MANAGER);
@@ -38,41 +41,29 @@ public class Creator {
         Employee kirril = new Employee("Kirril", "Kirrilov", "MP1112255", Post.OFFICE_WORKER);
         Employee lev = new Employee("Lev", "Levkov", "MP1112256", Post.MANAGER);
 
-        postalChain.addDepartment(new Department(1,
-                new Address("Belarus", "Minsk", "Lenina", 10, null),
+        postalChain.add(new Department(new Address("Belarus", "Minsk", "Lenina", 10, null),
                 null, 1.1, Arrays.asList(ivan, mikhail)));
-        postalChain.addDepartment(new Department(2,
-                new Address("Belarus", "Borisov", "Ordzhonikidze", 11, null),
+        postalChain.add(new Department(new Address("Belarus", "Borisov", "Ordzhonikidze", 11, null),
                 null, 0.9, Arrays.asList(sveta, anastasia)));
-        postalChain.addDepartment(new Department(3,
-                new Address("Belarus", "Gomel", "Pravdi", 33, null),
+        postalChain.add(new Department(new Address("Belarus", "Gomel", "Pravdi", 33, null),
                 null, 1.05, Arrays.asList(alex, petr)));
-        postalChain.addDepartment(new Department(4,
-                new Address("Belarus", "Brest", "Maskovskaja", 9, null),
+        postalChain.add(new Department(new Address("Belarus", "Brest", "Maskovskaja", 9, null),
                 null, 1.05, Arrays.asList(evgenii, sergei)));
-        postalChain.addDepartment(new Department(5,
-                new Address("Belarus", "Kobryn", "Lenina", 12, null),
+        postalChain.add(new Department(new Address("Belarus", "Kobryn", "Lenina", 12, null),
                 null, 0.9, Arrays.asList(anton, vasilii)));
-        postalChain.addDepartment(new Department(6,
-                new Address("Belarus", "Mazyr", "Haharyna", 15, null),
+        postalChain.add(new Department(new Address("Belarus", "Mazyr", "Haharyna", 15, null),
                 null, 0.9, Arrays.asList(denis, karina)));
-        postalChain.addDepartment(new Department(7,
-                new Address("Belarus", "Mogilev", "Pijanierskaja", 22, null),
+        postalChain.add(new Department(new Address("Belarus", "Mogilev", "Pijanierskaja", 22, null),
                 null, 1.05, Arrays.asList(gena, vitala)));
-        postalChain.addDepartment(new Department(8,
-                new Address("Belarus", "Viciebsk", "Chkalava", 41, null),
+        postalChain.add(new Department(new Address("Belarus", "Viciebsk", "Chkalava", 41, null),
                 null, 1.05, Arrays.asList(valera, marina)));
-        postalChain.addDepartment(new Department(9,
-                new Address("Belarus", "Grodna", "Pieramohi", 3, null),
+        postalChain.add(new Department(new Address("Belarus", "Grodna", "Pieramohi", 3, null),
                 null, 1.05, Arrays.asList(pavel, grigorii)));
-        postalChain.addDepartment(new Department(10,
-                new Address("Belarus", "Polatsk", "Skaryny", 9, null),
+        postalChain.add(new Department(new Address("Belarus", "Polatsk", "Skaryny", 9, null),
                 null, 0.95, Arrays.asList(daniil, egor)));
-        postalChain.addDepartment(new Department(11,
-                new Address("Belarus", "Baranovichy", "Brestskaya", 37, null),
+        postalChain.add(new Department(new Address("Belarus", "Baranovichy", "Brestskaya", 37, null),
                 null, 0.9, Arrays.asList(igor, zahar)));
-        postalChain.addDepartment(new Department(12,
-                new Address("Belarus", "Maladzyechna", "Vilenskaya", 7, null),
+        postalChain.add(new Department(new Address("Belarus", "Maladzyechna", "Vilenskaya", 7, null),
                 null, 0.95, Arrays.asList(kirril, lev)));
 
         postalChain.getDepartment(1).getNeighboringBranches().put(postalChain.getDepartment(2), 98);

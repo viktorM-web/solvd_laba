@@ -1,10 +1,13 @@
 package com.solvd.post.entity;
 
+import com.solvd.post.customException.ExceptionHandlerUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Scanner;
 
 @Getter
+@Slf4j
 public class Consumer extends PersonalData {
 
     private Address address;
@@ -20,12 +23,12 @@ public class Consumer extends PersonalData {
     }
 
     public static Consumer build(Scanner scanner, Department department) {
-        System.out.println("Enter name");
-        String name = scanner.nextLine();
-        System.out.println("Enter surname");
-        String surname = scanner.nextLine();
-        System.out.println("Enter passport");
-        String passport = scanner.nextLine();
+        log.info("Enter name");
+        String name = ExceptionHandlerUtil.handleNameValidException(scanner);
+        log.info("Enter surname");
+        String surname = ExceptionHandlerUtil.handleNameValidException(scanner);
+        log.info("Enter passport");
+        String passport = ExceptionHandlerUtil.handlePassportValidException(scanner);
         return new Consumer(name, surname, passport, department.getAddress());
     }
 }

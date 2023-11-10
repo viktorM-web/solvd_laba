@@ -1,5 +1,6 @@
 package com.solvd.post.entity;
 
+import com.solvd.post.customException.ExceptionHandlerUtil;
 import com.solvd.post.customInterface.Countable;
 import com.solvd.post.customInterface.Sendable;
 import com.solvd.post.entity.enam.Service;
@@ -7,13 +8,10 @@ import com.solvd.post.entity.util.Counter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -21,6 +19,7 @@ import java.util.Set;
 public class Department implements Countable<Integer> {
 
     private static final PostalChain POSTAL_CHAIN = PostalChain.getINSTANCE();
+    public static final Logger log = LoggerFactory.getLogger(Department.class);
 
     private static Integer counter = 1;
 
@@ -47,53 +46,72 @@ public class Department implements Countable<Integer> {
     public void useService(Scanner scanner) {
         answerEmployee();
 
-        int indexService = scanner.nextInt();
+        int indexService = ExceptionHandlerUtil.handleNotValidException(scanner);
+
         Service selectedService = Service.getServiceById(indexService);
 
+        while (selectedService==null){
+            log.info("not correct index");
+            indexService = ExceptionHandlerUtil.handleNotValidException(scanner);
+            selectedService = Service.getServiceById(indexService);
+
+        }
+
         if (selectedService.equals(Service.TRACK)) {
-            System.out.println("enter id your package");
-            int id = scanner.nextInt();
+            log.info("enter id your package");
+
+            Integer id = ExceptionHandlerUtil.handleNotValidException(scanner);
+
             Letter letter = POSTAL_CHAIN.getLetter(id);
-            System.out.println(letter == null ? "your package not find" : letter.getInfo());
+            log.info(letter == null ? "your package not find" : letter.getInfo());
 
         } else {
-            System.out.println("Where do you want send? Choose department id");
+            log.info("Where do you want send? Choose department id");
 
             availableBranches();
 
-            Department toDepartment = getDepartmentById(scanner.nextInt());
+            Integer id = ExceptionHandlerUtil.handleNotValidException(scanner);
+
+            Department toDepartment = getDepartmentById(id);
+
+            while (toDepartment==null){
+                log.info("not correct index");
+                id = ExceptionHandlerUtil.handleNotValidException(scanner);
+                toDepartment = getDepartmentById(id);
+            }
 
             Integer distance = neighboringBranches.get(toDepartment);
 
             scanner.nextLine();
 
-            System.out.println("Enter info for sender");
+            log.info("Enter info for sender");
             Consumer sender = Consumer.build(scanner, this);
 
-            System.out.println("Enter info for recipient");
+            log.info("Enter info for recipient");
             Consumer recipient = Consumer.build(scanner, toDepartment);
 
-            System.out.println("What do you want to send? \n if letter press 1 \n if package press 2");
-            int type = scanner.nextInt();
+            log.info("What do you want to send? \n if letter press 1 \n if package press 2");
+
+            int type = ExceptionHandlerUtil.handleNotValidException(scanner);
 
             if (type == 1) {
                 Letter letter = Counter.countLetter(sender, recipient, selectedService, distance, this);
 
                 if (sendPackage(letter)) {
-                    System.out.println("you send " + letter);
+                    log.info("you send " + letter);
                 } else {
-                    System.out.println("your letter not send");
+                    log.info("your letter not send");
                 }
             } else if (type == 2) {
                 Package packag = Counter.countPackage(scanner, sender, recipient, selectedService, distance, this);
 
                 if (sendPackage(packag)) {
-                    System.out.println("you send " + packag);
+                    log.info("you send " + packag);
                 } else {
-                    System.out.println("your package not send");
+                    log.info("your package not send");
                 }
             } else {
-                System.out.println("Something went wrong");
+                log.info("Something went wrong");
             }
         }
     }
@@ -109,10 +127,9 @@ public class Department implements Countable<Integer> {
 
     private void answerEmployee() {
         Employee employee = getEmployee();
-        System.out.println("I'm " + employee.getPost() + " " + employee.getName() +
-                ". What service do you need? ");
+        log.info(String.format("I'm %s %s. What service do you need?%n", employee.getPost(), employee.getName()));
         Service.options();
-        System.out.println("Enter id needed service");
+        log.info("Enter id needed service");
     }
 
     private Employee getEmployee() {
@@ -123,7 +140,7 @@ public class Department implements Countable<Integer> {
     private void availableBranches() {
         Set<Department> departments = getNeighboringBranches().keySet();
         for (Department dep : departments) {
-            System.out.println("id " + dep.getId() + " sity " + dep.getAddress().getCity());
+            log.info(String.format("id %s sity %s%n", dep.getId(), dep.getAddress().getCity()));
         }
     }
 

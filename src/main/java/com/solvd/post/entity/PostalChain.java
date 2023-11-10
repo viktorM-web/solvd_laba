@@ -1,6 +1,9 @@
 package com.solvd.post.entity;
 
+import com.solvd.post.customException.ExceptionHandlerUtil;
 import com.solvd.post.customInterface.Growing;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,6 +11,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public final class PostalChain implements Growing<Department> {
+
+    public static final Logger log = LoggerFactory.getLogger(PostalChain.class);
 
     private static final PostalChain INSTANCE = new PostalChain();
 
@@ -49,16 +54,19 @@ public final class PostalChain implements Growing<Department> {
     }
 
     public Department contactWithDepartment(Scanner scanner) {
-        System.out.println("Hello, which branch would you like to contact? \n");
+        log.info("Hello, which branch would you like to contact? \n");
         options(getDepartments());
-        System.out.println("Enter id needed branch");
+        log.info("Enter id needed branch");
 
-        return getDepartment(scanner.nextInt());
+
+        Integer idDepartment = ExceptionHandlerUtil.handleNotValidException(scanner);
+
+        return getDepartment(idDepartment);
     }
 
     private void options(Collection<Department> departments) {
         for (Department dep : departments) {
-            System.out.println("id " + dep.getId() + " city " + dep.getAddress());
+            log.info("id " + dep.getId() + " city " + dep.getAddress());
         }
     }
 }

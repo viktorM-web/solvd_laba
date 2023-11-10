@@ -4,6 +4,8 @@ import com.solvd.post.customInterface.Indexed;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Getter
 @ToString
@@ -14,6 +16,8 @@ public enum Service implements Indexed<Integer> {
     EXPRESS_DELIVERY(2, "express delivery", 20.10, 50.7f),
     VIP_DELIVERY(3, "vip delivery", 30.63, 65.5f),
     TRACK(4, " track package", 0.0, 0.0f);
+
+    private static final Logger log = LoggerFactory.getLogger(Service.class);
 
     private Integer id;
     private String name;
@@ -31,7 +35,7 @@ public enum Service implements Indexed<Integer> {
 
     public static void options() {
         for (Service ser : Service.values()) {
-            System.out.println("id " + ser.getId() + " name " + ser.getName());
+            log.info(String.format("id " + ser.getId() + " name " + ser.getName()));
         }
     }
 

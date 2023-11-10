@@ -1,5 +1,6 @@
 package com.solvd.post.entity.util;
 
+import com.solvd.post.customException.ExceptionHandlerUtil;
 import com.solvd.post.entity.Consumer;
 import com.solvd.post.entity.Department;
 import com.solvd.post.entity.Letter;
@@ -7,11 +8,13 @@ import com.solvd.post.entity.Package;
 import com.solvd.post.entity.enam.Service;
 import com.solvd.post.entity.enam.State;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
 import java.util.Scanner;
 
 @UtilityClass
+@Slf4j
 public class Counter {
 
     private static final Random RANDOM = new Random();
@@ -31,12 +34,12 @@ public class Counter {
 
         double cost = distance / INDEX_DISTANCE * service.getCost();
 
-        System.out.println("Cost of letter will be " + cost);
+        log.info("Cost of letter will be " + cost);
 
         DeliveryOptions deliveryOptions = count(service, distance);
 
         State state = deliveryOptions.getDamage() > INDEX_LOSING ? State.LOST : State.IN_TRANSIT;
-        System.out.println("letter can be damaged on " + deliveryOptions.getDamage() + " percent");
+        log.info("letter can be damaged on " + deliveryOptions.getDamage() + " percent");
 
         return new Letter(sender, recipient, cost, department, state, deliveryOptions);
     }
@@ -48,14 +51,15 @@ public class Counter {
                                        Integer distance,
                                        Department department) {
 
-        System.out.println("Enter weight in kg");
-        Double weight = scanner.nextDouble();
-        System.out.println("Enter length in centimeters");
-        Double length = scanner.nextDouble();
-        System.out.println("Enter width in centimeters");
-        Double width = scanner.nextDouble();
-        System.out.println("Enter height in centimeters");
-        Double height = scanner.nextDouble();
+        scanner.nextLine();
+        log.info("Enter weight in kg");
+        Double weight = ExceptionHandlerUtil.handleWeightException(scanner);
+        log.info("Enter length in centimeters");
+        Double length = ExceptionHandlerUtil.handleDimensionsException(scanner);
+        log.info("Enter width in centimeters");
+        Double width = ExceptionHandlerUtil.handleDimensionsException(scanner);
+        log.info("Enter height in centimeters");
+        Double height = ExceptionHandlerUtil.handleDimensionsException(scanner);
 
         Integer time = distance / AVERAGE_SPEED;
 

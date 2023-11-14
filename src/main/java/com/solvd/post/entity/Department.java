@@ -1,5 +1,6 @@
 package com.solvd.post.entity;
 
+import com.solvd.post.customColection.MyLinkedList;
 import com.solvd.post.customException.ExceptionHandlerUtil;
 import com.solvd.post.customInterface.Countable;
 import com.solvd.post.customInterface.Sendable;
@@ -28,9 +29,9 @@ public class Department implements Countable<Integer> {
     private Contact contact;
     private Map<Department, Integer> neighboringBranches = new HashMap<>();
     private Double indexService;
-    private List<Employee> employees;
-    private Map<Integer, Sendable> toSendPackages = new HashMap<>();
-    private Map<Integer, Letter> camePackages = new HashMap<>();
+    private ArrayList<Employee> employees;
+    private MyLinkedList<Sendable> toSendPackages = new MyLinkedList<>();
+    private Set<Letter> camePackages = new HashSet<>();
 
     public Department(Address address,
                       Contact contact,
@@ -40,7 +41,7 @@ public class Department implements Countable<Integer> {
         this.address = address;
         this.contact = contact;
         this.indexService = indexService;
-        this.employees = employees;
+        this.employees = new ArrayList<>(employees);
     }
 
     public void useService(Scanner scanner) {
@@ -50,7 +51,7 @@ public class Department implements Countable<Integer> {
 
         Service selectedService = Service.getServiceById(indexService);
 
-        while (selectedService==null){
+        while (selectedService == null) {
             log.info("not correct index");
             indexService = ExceptionHandlerUtil.handleNotValidException(scanner);
             selectedService = Service.getServiceById(indexService);
@@ -74,7 +75,7 @@ public class Department implements Countable<Integer> {
 
             Department toDepartment = getDepartmentById(id);
 
-            while (toDepartment==null){
+            while (toDepartment == null) {
                 log.info("not correct index");
                 id = ExceptionHandlerUtil.handleNotValidException(scanner);
                 toDepartment = getDepartmentById(id);
@@ -140,15 +141,15 @@ public class Department implements Countable<Integer> {
     private void availableBranches() {
         Set<Department> departments = getNeighboringBranches().keySet();
         for (Department dep : departments) {
-            log.info(String.format("id %s sity %s%n", dep.getId(), dep.getAddress().getCity()));
+            log.info(String.format("id %s sity %s", dep.getId(), dep.getAddress().getCity()));
         }
     }
 
     private boolean sendPackage(Letter letter) {
 
-        toSendPackages.put(letter.getId(), letter);
+        toSendPackages.add(letter);
 
-        return toSendPackages.containsValue(letter) && POSTAL_CHAIN.addPackage(letter);
+        return toSendPackages.contains(letter) && POSTAL_CHAIN.addPackage(letter);
     }
 
     @Override

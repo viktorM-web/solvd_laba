@@ -118,12 +118,7 @@ public class Department implements Countable<Integer> {
     }
 
     private Department getDepartmentById(Integer id) {
-        for (Department dep : neighboringBranches.keySet()) {
-            if (dep.getId() == id) {
-                return dep;
-            }
-        }
-        return null;
+        return neighboringBranches.keySet().stream().filter(dep -> dep.getId() == id).findFirst().orElseGet(null);
     }
 
     private void answerEmployee() {
@@ -139,16 +134,13 @@ public class Department implements Countable<Integer> {
     }
 
     private void availableBranches() {
-        Set<Department> departments = getNeighboringBranches().keySet();
-        for (Department dep : departments) {
-            log.info(String.format("id %s sity %s", dep.getId(), dep.getAddress().getCity()));
-        }
+        neighboringBranches.keySet().stream()
+                .forEach(dep -> log.info(String.format("id %s sity %s", dep.getId(), dep.getAddress().getCity())));
     }
 
     private boolean sendPackage(Letter letter) {
 
         toSendPackages.add(letter);
-
         return toSendPackages.contains(letter) && POSTAL_CHAIN.addPackage(letter);
     }
 

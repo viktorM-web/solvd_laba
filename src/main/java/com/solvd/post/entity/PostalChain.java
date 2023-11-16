@@ -58,15 +58,12 @@ public final class PostalChain implements Growing<Department> {
         options(getDepartments());
         log.info("Enter id needed branch");
 
-
         Integer idDepartment = ExceptionHandlerUtil.handleNotValidException(scanner);
 
         return getDepartment(idDepartment);
     }
 
     private void options(Collection<Department> departments) {
-        for (Department dep : departments) {
-            log.info("id " + dep.getId() + " city " + dep.getAddress());
-        }
+        departments.stream().forEach(dep -> log.info("id " + dep.getId() + " city " + dep.getAddress()));
     }
 }

@@ -7,6 +7,8 @@ import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+
 @Getter
 @ToString
 @AllArgsConstructor
@@ -25,18 +27,13 @@ public enum Service implements Indexed<Integer> {
     private Float speed;
 
     public static Service getServiceById(Integer id) {
-        for (Service service : Service.values()) {
-            if (service.getId() == id) {
-                return service;
-            }
-        }
-        return null;
+        return Arrays.stream(Service.values()).filter(service -> service.getId().equals(id))
+                .findFirst().orElseGet(null);
     }
 
     public static void options() {
-        for (Service ser : Service.values()) {
-            log.info(String.format("id " + ser.getId() + " name " + ser.getName()));
-        }
+        Arrays.stream(Service.values()).iterator()
+                .forEachRemaining(ser -> log.info(String.format("id " + ser.getId() + " name " + ser.getName())));
     }
 
     @Override

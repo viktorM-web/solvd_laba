@@ -33,7 +33,7 @@ public enum Service implements Indexed<Integer> {
 
     public static void options() {
         Arrays.stream(Service.values()).iterator()
-                .forEachRemaining(ser -> log.info(String.format("id " + ser.getId() + " name " + ser.getName())));
+                .forEachRemaining(ser -> log.info(ser.getName() + " id " + ser.getId()));
     }
 
     @Override

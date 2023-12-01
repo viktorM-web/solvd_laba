@@ -64,6 +64,6 @@ public final class PostalChain implements Growing<Department> {
     }
 
     private void options(Collection<Department> departments) {
-        departments.stream().forEach(dep -> log.info("id " + dep.getId() + " city " + dep.getAddress()));
+        departments.forEach(dep -> log.info("id " + dep.getId() + " " + dep.getAddress()));
     }
 }

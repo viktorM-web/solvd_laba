@@ -1,6 +1,6 @@
 package com.solvd.post.entity;
 
-import com.solvd.post.entity.enam.Post;
+import com.solvd.post.enam.Post;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.solvd.post.entity;
 
-import com.solvd.post.entity.enam.State;
-import com.solvd.post.entity.util.DeliveryOptions;
+import com.solvd.post.enam.State;
+import com.solvd.post.util.DeliveryOptions;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

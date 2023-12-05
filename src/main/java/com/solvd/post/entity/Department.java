@@ -4,11 +4,9 @@ import com.solvd.post.customColection.MyLinkedList;
 import com.solvd.post.customException.ExceptionHandlerUtil;
 import com.solvd.post.customInterface.Countable;
 import com.solvd.post.customInterface.Sendable;
-import com.solvd.post.customInterface.function.ICheck;
 import com.solvd.post.customInterface.function.IDisplayInfo;
-import com.solvd.post.customInterface.function.ITransform;
-import com.solvd.post.entity.enam.Service;
-import com.solvd.post.entity.util.Counter;
+import com.solvd.post.enam.Service;
+import com.solvd.post.util.Counter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -76,43 +74,31 @@ public class Department implements Countable<Integer> {
 
             Integer id = ExceptionHandlerUtil.handleNotValidException(scanner);
 
-            ITransform<Integer, Department> departmentByKey = v ->
-                    neighboringBranches.entrySet().stream()
-                            .map(entry -> entry.getKey())
-                            .filter(dep -> dep.getId() == v)
-                            .findFirst().orElse(null);
-
-            Department toDepartment = departmentByKey.transform(id);
+            Department toDepartment = getDepartmentById(id);
 
             while (toDepartment == null) {
                 log.info("not correct index");
                 id = ExceptionHandlerUtil.handleNotValidException(scanner);
-                toDepartment = departmentByKey.transform(id);
+                toDepartment = getDepartmentById(id);
             }
 
             Integer distance = neighboringBranches.get(toDepartment);
 
             scanner.nextLine();
-            IDisplayInfo<String> logInfo = log::info;
 
-            logInfo.printInfo("Enter info for sender");
+            log.info("Enter info for sender");
 
             Consumer sender = Consumer.build(scanner, this);
 
-            logInfo.printInfo("Enter info for recipient");
+            log.info("Enter info for recipient");
             Consumer recipient = Consumer.build(scanner, toDepartment);
 
-            logInfo.printInfo("What do you want to send? \n if letter press 1 \n if package press 2");
+            log.info("What do you want to send? \n if letter press 1 \n if package press 2");
 
             int type = ExceptionHandlerUtil.handleNotValidException(scanner);
 
-            ICheck<Letter> isSent = letter -> {
-                toSendPackages.add(letter);
-                return toSendPackages.contains(letter) && POSTAL_CHAIN.addPackage(letter);
-            };
-
             IDisplayInfo<Letter> infoForLetter = v -> {
-                if (isSent.check(v)) {
+                if (sendPackage(v)) {
                     log.info("you send " + v);
                 } else {
                     log.info("your letter not send");
@@ -134,10 +120,6 @@ public class Department implements Countable<Integer> {
         }
     }
 
-    /**
-     * Predicate
-     * Function
-     */
     private Department getDepartmentById(Integer id) {
         return neighboringBranches.entrySet().stream()
                 .map(entry -> entry.getKey())
@@ -157,12 +139,11 @@ public class Department implements Countable<Integer> {
         return employees.get(random.nextInt(employees.size()));
     }
 
-    /**
-     * Consumer
-     */
     private void availableBranches() {
-        neighboringBranches.keySet()
-                .forEach(dep -> log.info(String.format("id %s sity %s", dep.getId(), dep.getAddress().getCity())));
+        neighboringBranches.entrySet().stream()
+                .map(Map.Entry::getKey)
+                .sorted(Comparator.comparingInt(Department::getIndex))
+                .forEach(dep -> log.info(String.format("id %s city %s", dep.getId(), dep.getAddress().getCity())));
     }
 
     private boolean sendPackage(Letter letter) {

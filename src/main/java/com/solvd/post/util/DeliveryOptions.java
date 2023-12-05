@@ -1,4 +1,4 @@
-package com.solvd.post.entity.util;
+package com.solvd.post.util;
 
 import com.solvd.post.customInterface.IPair;
 import lombok.Getter;

@@ -1,12 +1,12 @@
-package com.solvd.post.entity.util;
+package com.solvd.post.util;
 
 import com.solvd.post.customException.ExceptionHandlerUtil;
 import com.solvd.post.entity.Consumer;
 import com.solvd.post.entity.Department;
 import com.solvd.post.entity.Letter;
 import com.solvd.post.entity.Package;
-import com.solvd.post.entity.enam.Service;
-import com.solvd.post.entity.enam.State;
+import com.solvd.post.enam.Service;
+import com.solvd.post.enam.State;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 

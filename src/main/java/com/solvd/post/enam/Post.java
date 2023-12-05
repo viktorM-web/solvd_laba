@@ -1,4 +1,4 @@
-package com.solvd.post.entity.enam;
+package com.solvd.post.enam;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ public enum Post {
     private Double salary;
 
     Post(String post, Double salary) {
-        salary = salary;
+        this.salary = salary;
         this.post = post;
     }
 

@@ -1,4 +1,4 @@
-package com.solvd.post.entity.enam;
+package com.solvd.post.enam;
 
 import lombok.extern.slf4j.Slf4j;
 

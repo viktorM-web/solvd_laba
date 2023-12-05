@@ -1,10 +1,10 @@
-package com.solvd.post.entity.util;
+package com.solvd.post.util;
 
 import com.solvd.post.entity.Address;
 import com.solvd.post.entity.Department;
 import com.solvd.post.entity.Employee;
 import com.solvd.post.entity.PostalChain;
-import com.solvd.post.entity.enam.Post;
+import com.solvd.post.enam.Post;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.solvd.post.entity.enam;
+package com.solvd.post.enam;
 
 import com.solvd.post.customInterface.Indexed;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public enum Service implements Indexed<Integer> {
     DELIVERY(1, "delivery", 10.05, 40.5f),
     EXPRESS_DELIVERY(2, "express delivery", 20.10, 50.7f),
     VIP_DELIVERY(3, "vip delivery", 30.63, 65.5f),
-    TRACK(4, " track package", 0.0, 0.0f);
+    TRACK(4, "track package", 0.0, 0.0f);
 
     private static final Logger log = LoggerFactory.getLogger(Service.class);
 
@@ -32,8 +32,8 @@ public enum Service implements Indexed<Integer> {
     }
 
     public static void options() {
-        Arrays.stream(Service.values()).iterator()
-                .forEachRemaining(ser -> log.info(ser.getName() + " id " + ser.getId()));
+        Arrays.stream(Service.values())
+                .forEach(ser -> log.info("id " + ser.getId()+ " " + ser.getName()));
     }
 
     @Override

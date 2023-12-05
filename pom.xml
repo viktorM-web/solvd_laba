@@ -73,7 +73,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                com.solvd.post.entity.TestPostSystem
+                                com.solvd.post.TestPostSystem
                             </mainClass>
                         </manifest>
                     </archive>

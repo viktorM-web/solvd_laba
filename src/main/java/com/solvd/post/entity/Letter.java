@@ -2,8 +2,8 @@ package com.solvd.post.entity;
 
 import com.solvd.post.customInterface.Countable;
 import com.solvd.post.customInterface.Sendable;
-import com.solvd.post.entity.enam.State;
-import com.solvd.post.entity.util.DeliveryOptions;
+import com.solvd.post.enam.State;
+import com.solvd.post.util.DeliveryOptions;
 import lombok.Data;
 
 @Data
